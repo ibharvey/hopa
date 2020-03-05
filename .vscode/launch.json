@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "make",
             "program": "${workspaceFolder}/build/src/hopa",
-            "args": ["test/seq.fa"],
+            "args": ["-t", "1", "-f", "test/intermediate_order.fa"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

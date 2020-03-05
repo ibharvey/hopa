@@ -67,7 +67,7 @@ void check_arguments(cmd_arguments & args)
         args.out_file_path = std::filesystem::current_path() / args.out_file_path;
         if(std::filesystem::exists(args.out_file_path) && !args.force)
         {
-            throw seqan3::validation_error(seqan3::detail::to_string( "Cowardly refusing to use an existing output file. Use 'f' to overwrite."));
+            throw seqan3::validation_error(seqan3::detail::to_string( "Cowardly refusing to use an existing output file. Use '-f' to overwrite."));
         }
     }
 

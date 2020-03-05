@@ -33,3 +33,4 @@ target_include_directories(hopa PRIVATE
 
 target_link_libraries(hopa LINK_PUBLIC arg_parse aligner seqan3::seqan3)
 
+install(TARGETS hopa DESTINATION bin)
