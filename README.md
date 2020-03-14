@@ -22,8 +22,6 @@ docker run hopa [options]
 
 ### With CMake
 ```
-
-```
 git clone --recursive https://github.com/ibharvey/hopa
 cd hopa
 mkdir -p build
