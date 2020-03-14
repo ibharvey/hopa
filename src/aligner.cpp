@@ -24,7 +24,8 @@ int hopa_run(cmd_arguments args)
     // If the user wants the orientation reversed, 
     // just reverse the first sequence at the beginning
     if(args.reverse)
-        seqan3::get<seqan3::field::seq>(first_rec)=seqan3::views::complement(std::views::reverse(seqan3::get<seqan3::field::seq>(first_rec)));
+        seqan3::get<seqan3::field::seq>(first_rec)=seqan3::views::complement(std::views::reverse(seqan3::get<seqan3::field::seq>(first_rec)))
+		| ranges::to<std::vector>();
 
     auto first_seq = seqan3::get<seqan3::field::seq>(first_rec);
 
@@ -39,7 +40,8 @@ int hopa_run(cmd_arguments args)
     // went back to traditional iterators.
     for(auto it = std::begin(back_seqs_2); it < std::end(back_seqs_2); it++)
     {
-        *(++it) = seqan3::views::complement(std::views::reverse(*it));
+        *(++it) = seqan3::views::complement(std::views::reverse(*it)) | 
+		ranges::to<std::vector>();
     }
     // And back to ranges!
     auto pair_seqs = back_seqs_2    | std::views::transform([first_seq](auto s){return std::pair{first_seq, s};})
@@ -66,7 +68,8 @@ int hopa_run(cmd_arguments args)
         {
             // If the reverse sequence aligns better
             // then swap the forward sequence out and output.
-            seqan3::get<seqan3::field::seq>(*finit)=seqan3::views::complement(std::views::reverse(seqan3::get<seqan3::field::seq>(*finit)));
+            seqan3::get<seqan3::field::seq>(*finit)=seqan3::views::complement(std::views::reverse(seqan3::get<seqan3::field::seq>(*finit))) |
+		    ranges::to<std::vector>();
             fout.push_back(*finit);
         }
         finit++;

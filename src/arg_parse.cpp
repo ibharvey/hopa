@@ -1,6 +1,6 @@
 #include "arg_parse.hpp"
 
-cmd_arguments initialize_argument_parser(const std::string name, int argc, char ** argv)
+cmd_arguments initialize_argument_parser(int argc, char ** argv)
 {
     cmd_arguments args{};
     seqan3::argument_parser parser{"HOPA", argc, argv};
@@ -22,7 +22,7 @@ cmd_arguments initialize_argument_parser(const std::string name, int argc, char 
     parser.add_flag(args.use_bzip,'j',"bzip", "BZip the output file.");
     parser.add_flag(args.use_gzip,'z',"gzip", "GZip the output file.");
     */
-    parser.add_option(args.threads, 't', "threads", "Number of threads to use.", seqan3::option_spec::DEFAULT, seqan3::arithmetic_range_validator{1,std::thread::hardware_concurrency()});
+    parser.add_option(args.threads, 't', "threads", "Number of threads to use.", seqan3::option_spec::DEFAULT, seqan3::arithmetic_range_validator{1,static_cast<double>(std::thread::hardware_concurrency())});
 
     parser.parse();
     check_arguments(args);

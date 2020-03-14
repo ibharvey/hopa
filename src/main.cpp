@@ -13,7 +13,7 @@ int main(int argc, char ** argv)
 {
     try
     {
-        auto args = initialize_argument_parser("HOPA", argc, argv);
+        auto args = initialize_argument_parser(argc, argv);
         return hopa_run(args);
     }
     catch (seqan3::validation_error const & ext)

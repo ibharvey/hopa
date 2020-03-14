@@ -15,5 +15,5 @@ struct cmd_arguments
     u_int threads{std::thread::hardware_concurrency()};
 };
 
-cmd_arguments initialize_argument_parser(const std::string name, int argc, char ** argv);
+cmd_arguments initialize_argument_parser(int argc, char ** argv);
 void check_arguments(cmd_arguments & args);

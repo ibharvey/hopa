@@ -6,6 +6,23 @@ De novo sequence assembly and structural variant analyses can generate lists of 
 
 
 ## Installation
+### With Docker
+If you are using a Linux/Mac distribution and have a Docker daemon running, you can install with:
+```
+git clone --recursive https://github.com/ibharvey/hopa
+cd hopa
+docker build . -t hopa
+```
+The benefit being that docker will pull all of the necessary dependencies into the separate container, giving you less of a headache.
+
+To run hopa through the Docker image, use:
+```
+docker run hopa [options]
+```
+
+### With CMake
+```
+
 ```
 git clone --recursive https://github.com/ibharvey/hopa
 cd hopa
@@ -13,7 +30,15 @@ mkdir -p build
 cd build
 cmake ..
 make
-#Builds a binary located at ..../hopa/build/src/hopa
+sudo make install
 ```
 
 HOPA requires Seqan3 and its respective dependencies. FYI this includes a fairly new compiler.
+
+To run hopa following CMake installation, use either:
+```
+hopa [options]
+#or
+./hopa [options]
+```
+Depending on how you installed the program.
