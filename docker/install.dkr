@@ -1,0 +1,7 @@
+FROM ubuntu:bionic
+
+WORKDIR /bin
+
+COPY --from=ubuntu:seqan3 /hopa/build/src/hopa ./
+
+ENTRYPOINT ["./hopa"]

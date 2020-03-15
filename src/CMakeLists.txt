@@ -2,11 +2,18 @@ cmake_minimum_required (VERSION 3.4)
 
 project (hopa CXX)
 
+option(USING_DOCKER OFF)
 
 # Add external projects
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
-set(SeqAn3_DIR "${CMAKE_SOURCE_DIR}/deps/seqan3/build_system")
+if(USING_DOCKER)
+	set(SeqAn3_DIR "/deps/seqan3/build_system")
+else()
+	set(SeqAn3_DIR "${CMAKE_SOURCE_DIR}/deps/seqan3/build_system")
+endif(USING_DOCKER)
+unset(USING_DOCKER CACHE)
+
 find_package (SeqAn3 REQUIRED)
 
 add_executable (hopa main.cpp)

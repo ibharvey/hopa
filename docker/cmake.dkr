@@ -1,4 +1,4 @@
-FROM ubuntu:bionic AS build
+FROM ubuntu:bionic
 
 RUN apt-get update && \
 	apt-get install -y build-essential git cmake autoconf libtool pkg-config zlib1g-dev libbz2-dev
@@ -7,17 +7,10 @@ WORKDIR /hopa
 
 COPY include/ /hopa/include/
 COPY src/ /hopa/src/
-COPY deps/ /hopa/deps/
+COPY deps/ /deps/
 COPY CMakeLists.txt /hopa/
 
 WORKDIR /hopa/build
 
-RUN cmake .. && make
+RUN cmake -DUSING_DOCKER=ON .. && make
 
-FROM ubuntu:bionic AS release
-
-WORKDIR /bin
-
-COPY --from=build /hopa/build/src/hopa ./
-
-ENTRYPOINT ["./hopa"]
