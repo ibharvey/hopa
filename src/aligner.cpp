@@ -14,7 +14,7 @@ int hopa_run(cmd_arguments args)
                         }
                     } |
                     seqan3::align_cfg::gap{seqan3::gap_scheme{seqan3::gap_score{-4}}} |
-                    seqan3::align_cfg::parallel{args.threads} |
+                    seqan3::align_cfg::parallel{static_cast<unsigned int>(args.threads)} |
                     seqan3::align_cfg::result{seqan3::with_score};
 
 // Ranges and views are the C++ equivalent of deboning a duck.

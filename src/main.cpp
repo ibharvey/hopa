@@ -18,7 +18,7 @@ int main(int argc, char ** argv)
     }
     catch (seqan3::validation_error const & ext)
     {
-        seqan3::debug_stream << "Invalid argument: " << ext.what() << "\n"; // customise your error message
+        seqan3::debug_stream << "Invalid argument: " << ext.what() << "\n"; 
         return -1;
     }
 }

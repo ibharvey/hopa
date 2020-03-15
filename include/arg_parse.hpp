@@ -12,7 +12,7 @@ struct cmd_arguments
     bool force{};
     bool use_gzip{};
     bool use_bzip{};
-    u_int threads{std::thread::hardware_concurrency()};
+    std::size_t threads{std::thread::hardware_concurrency()};
 };
 
 cmd_arguments initialize_argument_parser(int argc, char ** argv);
