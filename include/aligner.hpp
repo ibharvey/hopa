@@ -12,6 +12,7 @@
 
 #include <seqan3/io/sequence_file/input.hpp>
 #include <seqan3/io/sequence_file/output.hpp>
+#include <seqan3/std/filesystem>
 
 #include <seqan3/range/views/complement.hpp>
 #include <range/v3/view/repeat.hpp>

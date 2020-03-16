@@ -12,11 +12,12 @@ cmd_arguments initialize_argument_parser(int argc, char ** argv)
     parser.info.version = "0.1";
 
     parser.add_positional_option(args.in_file_path, "A fast(aq) file to be oriented.");
+    parser.add_option(args.in_file_reference, 'r', "reference", "An optional reference file to orient against.");
     parser.add_option(args.out_file_path, 'o', "output", "Output file for oriented sequences.");
     parser.add_flag(args.overwrite, 'w',"overwrite", "Overwrite the input file with the output.");
     parser.add_flag(args.force, 'f', "force", "Force the program to overwrite an existing file.");
-    parser.add_flag(args.reverse, 'r', "reverse", "Reverse the global orientation of the output "
-                                                    "opposite the first sequence in the file.");
+    parser.add_flag(args.reverse, '\0', "reverse", "Reverse the global orientation of the output"
+                                                    "compared to the reference.");
     // TODO: Implement gzip and bzip functionality
     /*
     parser.add_flag(args.use_bzip,'j',"bzip", "BZip the output file.");
@@ -33,39 +34,39 @@ cmd_arguments initialize_argument_parser(int argc, char ** argv)
 
 void check_arguments(cmd_arguments & args)
 {
-    // Check the input file
-    if(args.in_file_path.is_relative())
+    check_in_file(args.in_file_path);
+    check_in_file(args.in_file_reference);
+    check_out_file(args.out_file_path, args.force);
+    return;
+}
+
+void check_in_file(std::filesystem::path & a_path)
+{
+    // Check the input file #1
+    if(a_path.is_relative())
     {
-        if(std::filesystem::exists(std::filesystem::current_path() / args.in_file_path))
+        if(std::filesystem::exists(std::filesystem::current_path() / a_path))
         {
-            args.in_file_path = std::filesystem::current_path() / args.in_file_path;
+            a_path = std::filesystem::current_path() / a_path;
         }
         else
         {
-            throw seqan3::validation_error(seqan3::detail::to_string( "The relative-path file ", args.in_file_path, " was not found."));
+            throw seqan3::validation_error(seqan3::detail::to_string( "The relative-path file ", a_path, " was not found."));
         }
     }else{
-        if(!std::filesystem::exists(args.in_file_path))
+        if(!std::filesystem::exists(a_path))
         {
-            throw seqan3::validation_error(seqan3::detail::to_string( "The full-path file ", args.in_file_path, " was not found."));
+            throw seqan3::validation_error(seqan3::detail::to_string( "The full-path file ", a_path, " was not found."));
         }
     }
+}
 
-    // Cannot both be overwriting and setting an output file path
-    if(args.overwrite && args.out_file_path != "output.fa" && args.out_file_path != args.in_file_path)
+void check_out_file(std::filesystem::path & a_path, const bool is_force)
+{
+    if(a_path.is_relative())
     {
-        throw seqan3::validation_error(seqan3::detail::to_string( "Either designate an output file OR overwrite the input file."));
-    }
-
-    // Set the output file path if not already a good value.
-    if(args.overwrite)
-    {
-        args.out_file_path = args.in_file_path;
-    }
-    else if(args.out_file_path.is_relative())
-    {
-        args.out_file_path = std::filesystem::current_path() / args.out_file_path;
-        if(std::filesystem::exists(args.out_file_path) && !args.force)
+        a_path = std::filesystem::current_path() / a_path;
+        if(std::filesystem::exists(a_path) && !is_force)
         {
             throw seqan3::validation_error(seqan3::detail::to_string( "Cowardly refusing to use an existing output file. Use '-f' to overwrite."));
         }
