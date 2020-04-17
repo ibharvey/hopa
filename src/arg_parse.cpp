@@ -35,6 +35,7 @@ cmd_arguments initialize_argument_parser(int argc, char ** argv)
 void check_arguments(cmd_arguments & args)
 {
     check_in_file(args.in_file_path);
+    if(!args.in_file_reference.empty()) args.has_reference = true;
     check_in_file(args.in_file_reference);
     check_out_file(args.out_file_path, args.force);
     return;

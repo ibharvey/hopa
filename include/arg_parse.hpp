@@ -13,6 +13,7 @@ struct cmd_arguments
     bool force{};
     bool use_gzip{};
     bool use_bzip{};
+    bool has_reference{false};
     std::size_t threads{std::thread::hardware_concurrency()};
 };
 
